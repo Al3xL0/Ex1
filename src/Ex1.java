@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /**
  * This class represents a simple solution for Ex1.
  * As defined here: https://docs.google.com/document/d/1AJ9wtnL1qdEs4DAKqBlO1bXCM6r6GJ_J/r/edit/edit
@@ -17,6 +20,8 @@ public class Ex1 {
      * @param num a String representing a number in basis [2,16]
      * @return
      */
+    private static ArrayList<Character> legit_digits = new ArrayList<>(Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D','E','F', 'G'));
+    private static ArrayList<Character> legit_bases = new ArrayList<>(Arrays.asList('2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D','E','F', 'G'));
     public static int number2Int(String num) {
         int ans = -1;
         // add your code here
@@ -32,7 +37,48 @@ public class Ex1 {
     public static boolean isNumber(String a) {
         boolean ans = true;
         // add your code here
+        int cnt = 0;
+        boolean isBaseMentioned = a.contains("b");
+        char base;
+        // a way to check if base mentioned twice
+        int times_base_mentioned = a.length() - a.replaceAll("b","").length();
+        if(isBaseMentioned) {
+            if(a.indexOf("b") == 0 || times_base_mentioned>1) {
+                ans = false;
+            } else {
+                base = a.charAt(a.length()-1);
+                if(!legit_bases.contains(base)) {
+                    ans = false;
+                } else {
+                    for(int i=0; i<a.indexOf("b"); i++) {
+                        System.out.println(a);
+                        char current_char = a.charAt(i);
+                        if(!legit_digits.contains(current_char)){
+                            ans=false;
+                            break;
+                        }
+                        if(legit_digits.indexOf(base) <= legit_digits.indexOf(current_char)){
+                            ans = false;
+                            break;
+                        }
 
+                    }
+                }
+            }
+
+        } else {
+            for(int i = 0; i<a.length(); i++){
+                char current_char = a.charAt(i);
+                if(!legit_digits.contains(current_char)){
+                    ans=false;
+                    break;
+                }
+               if(legit_digits.indexOf('A') <= legit_digits.indexOf(current_char) ){
+                   ans = false;
+                   break;
+               }
+            }
+        }
         ////////////////////
         return ans;
     }
