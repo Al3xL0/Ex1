@@ -14,19 +14,60 @@ import java.util.Arrays;
  * You should implement the following static functions:
  */
 public class Ex1 {
+    // lists of the legit digits and bases.
+    private static ArrayList<Character> legit_digits = new ArrayList<>(Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D','E','F', 'G'));
+    private static ArrayList<Character> legit_bases = new ArrayList<>(Arrays.asList('2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D','E','F', 'G'));
+
+
     /**
      * Convert the given number (num) to a decimal representation (as int).
      * It the given number is not in a valid format returns -1.
      * @param num a String representing a number in basis [2,16]
      * @return
      */
-    private static ArrayList<Character> legit_digits = new ArrayList<>(Arrays.asList('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D','E','F', 'G'));
-    private static ArrayList<Character> legit_bases = new ArrayList<>(Arrays.asList('2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D','E','F', 'G'));
     public static int number2Int(String num) {
         int ans = -1;
         // add your code here
-
+        if(!isNumber(num)) {
+            return ans;
+        }
+        String number = num.substring(0, num.indexOf('b'));
+        System.out.println(number);
+        char base = num.charAt(num.length()-1);
+        // because the range of bases is 2-16.
+        int base_in_int = legit_bases.indexOf(base) + 2;
+        System.out.println(base_in_int);
+        ans = Integer.parseInt(number, base_in_int);
+        System.out.println(ans);
         ////////////////////
+        return ans;
+    }
+    private static boolean isAllDigitsValid(String a , boolean isBaseMentioned) {
+        boolean ans = true;
+        int index;
+        char base;
+        if(isBaseMentioned) {
+            index = a.indexOf('b');
+            base = a.charAt(a.length()-1);
+        } else {
+            index = a.length()-1;
+            base = 'A';
+        }
+        for(int i=0; i<index; i++) {
+            System.out.println(a);
+            char current_char = a.charAt(i);
+            if(!legit_digits.contains(current_char)){
+                ans=false;
+                break;
+            }
+            if(legit_digits.indexOf(base) <= legit_digits.indexOf(current_char)){
+                ans = false;
+                break;
+            }
+        }
+        if(index == 0 && a.charAt(0) == 'A' ) {
+            ans=false;
+        }
         return ans;
     }
     /**
@@ -50,34 +91,12 @@ public class Ex1 {
                 if(!legit_bases.contains(base)) {
                     ans = false;
                 } else {
-                    for(int i=0; i<a.indexOf("b"); i++) {
-                        System.out.println(a);
-                        char current_char = a.charAt(i);
-                        if(!legit_digits.contains(current_char)){
-                            ans=false;
-                            break;
-                        }
-                        if(legit_digits.indexOf(base) <= legit_digits.indexOf(current_char)){
-                            ans = false;
-                            break;
-                        }
-
-                    }
+                    ans = isAllDigitsValid(a, isBaseMentioned);
                 }
             }
 
         } else {
-            for(int i = 0; i<a.length(); i++){
-                char current_char = a.charAt(i);
-                if(!legit_digits.contains(current_char)){
-                    ans=false;
-                    break;
-                }
-               if(legit_digits.indexOf('A') <= legit_digits.indexOf(current_char) ){
-                   ans = false;
-                   break;
-               }
-            }
+            ans = isAllDigitsValid(a, isBaseMentioned);
         }
         ////////////////////
         return ans;
