@@ -112,7 +112,22 @@ public class Ex1 {
      */
     public static String int2Number(int num, int base) {
         String ans = "";
+        int remainder = 0;
         // add your code here
+        if(base<2 || base>16) {
+            return ans;
+        }
+        if(num == 0) {
+            ans = "0b" + base;
+        }
+        while(num!=0) {
+            remainder = num%base;
+            ans = Character.toString(legit_digits.get(remainder)) + ans;
+            num /= base;
+        }
+        if(!ans.equals("")) {
+            ans = ans + "b" + legit_bases.get(base-2);
+        }
 
         ////////////////////
         return ans;
