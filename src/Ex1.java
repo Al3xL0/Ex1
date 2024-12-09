@@ -32,13 +32,10 @@ public class Ex1 {
             return ans;
         }
         String number = num.substring(0, num.indexOf('b'));
-        System.out.println(number);
         char base = num.charAt(num.length()-1);
         // because the range of bases is 2-16.
         int base_in_int = legit_bases.indexOf(base) + 2;
-        System.out.println(base_in_int);
         ans = Integer.parseInt(number, base_in_int);
-        System.out.println(ans);
         ////////////////////
         return ans;
     }
@@ -142,7 +139,11 @@ public class Ex1 {
     public static boolean equals(String n1, String n2) {
         boolean ans = true;
         // add your code here
-
+        int num1 = number2Int(n1);
+        int num2 = number2Int(n2);
+        if (num1 != num2) {
+            ans = false;
+        }
         ////////////////////
         return ans;
     }
