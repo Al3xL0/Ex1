@@ -139,7 +139,8 @@ public class Ex1 {
             num /= base;
         }
         if(!ans.equals("")) {
-            ans = ans + "b" + legit_bases.get(base-2);
+            if(!legit_bases.get(base-2).equals('A'))
+                ans = ans + "b" + legit_bases.get(base-2);
         }
 
         ////////////////////
