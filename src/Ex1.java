@@ -31,14 +31,27 @@ public class Ex1 {
         if(!isNumber(num)) {
             return ans;
         }
-        String number = num.substring(0, num.indexOf('b'));
-        char base = num.charAt(num.length()-1);
-        // because the range of bases is 2-16.
-        int base_in_int = legit_bases.indexOf(base) + 2;
-        ans = Integer.parseInt(number, base_in_int);
+        if(num.contains("b")){
+            String number = num.substring(0, num.indexOf('b'));
+            char base = num.charAt(num.length()-1);
+            // because the range of bases is 2-16.
+            int base_in_int = legit_bases.indexOf(base) + 2;
+            ans = Integer.parseInt(number, base_in_int);
+        } else {
+            ans = Integer.parseInt(num, 10);
+        }
+
         ////////////////////
         return ans;
     }
+
+    /**
+     * The following function checks each character of the given string and checks if it is a valid digit,
+     * also checks if the following digit is greater than the base of the given number.
+     * @param a
+     * @param isBaseMentioned
+     * @return
+     */
     private static boolean isAllDigitsValid(String a , boolean isBaseMentioned) {
         boolean ans = true;
         int index;
@@ -51,7 +64,6 @@ public class Ex1 {
             base = 'A';
         }
         for(int i=0; i<index; i++) {
-            System.out.println(a);
             char current_char = a.charAt(i);
             if(!legit_digits.contains(current_char)){
                 ans=false;
@@ -78,6 +90,11 @@ public class Ex1 {
         int cnt = 0;
         boolean isBaseMentioned = a.contains("b");
         char base;
+        // check if the string is empty or contains whitespaces
+        if(a.contains(" ") || a.isEmpty()) {
+            ans=false;
+            return ans;
+        }
         // a way to check if base mentioned twice
         int times_base_mentioned = a.length() - a.replaceAll("b","").length();
         if(isBaseMentioned) {
@@ -114,9 +131,8 @@ public class Ex1 {
         if(base<2 || base>16) {
             return ans;
         }
-        if(num == 0) {
-            ans = "0b" + base;
-        }
+        if(num==0)
+            ans = "0";
         while(num!=0) {
             remainder = num%base;
             ans = Character.toString(legit_digits.get(remainder)) + ans;
@@ -159,7 +175,18 @@ public class Ex1 {
     public static int maxIndex(String[] arr) {
         int ans = 0;
         // add your code here
-
+        int len = arr.length;
+        int[] numbers = new int[len];
+        for(int i=0; i<len; i++) {
+            numbers[i] = number2Int(arr[i]);
+            if(i!=0){
+                if(numbers[i]>numbers[ans]) {
+                    ans = i;
+                }
+            } else {
+                ans = i;
+            }
+        }
         ////////////////////
         return ans;
     }
